@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+<script>
+
+
+
+// 3. This function fires when Google Charts has been fully loaded
+function drawChart() {
+
+  // 4. Retrieve the raw JSON data
+
+
+    var jsonData = $.ajax({
+    url: 'http://localhost:3000/json',
+    dataType: 'json',
+  }).done(function (results) {
+
+    // 5. Create a new DataTable (Charts expects data in this format)
+    var data1 = new google.visualization.DataTable();
+    var data2 = new google.visualization.DataTable();
+    var data3 = new google.visualization.DataTable();
+    // 6. Add two columns to the DataTable
+    data1.addColumn('string','semana' );
+    data1.addColumn('number','APS'  );
+    data2.addColumn('string','semana' );
+    data2.addColumn('number','CAJMRI'  );
+    data3.addColumn('string','semana' );
+    data3.addColumn('number','CAJTRI'  );
+    // 7. Cycle through the records, adding one row per record
+    /*results.forEach(function(packet) {
+      data1.addRow([
+          packet.semana,
+          parseFloat(packet.costo),
+        ]);
+    });*/
+
+    for (var i = 0; i < results.length; i++) {
+
+         if(results[i].complemento=="APS")
+         {
+                semana = results[i].semana;
+                costo = results[i].costo;
+                data1.addRow([semana, costo]);
+        }
+
+         if(results[i].complemento=="CAJMRI")
+         {
+                semana = results[i].semana;
+                costo = results[i].costo;
+                data2.addRow([semana, costo]);
+        }
+         if(results[i].complemento=="CAJTRI")
+         {
+                semana = results[i].semana;
+                costo = results[i].costo;
+                data3.addRow([semana, costo]);
+        }
+    }
+    
+
+    // 8. Create a new line chart
+    var chart = new google.visualization.AreaChart(document.querySelector('#myAreaChart'));
+
+    var joinedData = google.visualization.data.join(data1, data2, 'full', [[0, 0]], [1], [1]);
+
+    var joinedData2 = google.visualization.data.join(joinedData, data3, 'full', [[0, 0]], [1,2], [1]);
+
+     var options = {
+      title : 'Costo Alimentación Escolar por Tipo Complemento/Semana ',
+      vAxis: {title: 'Costo'},
+      hAxis: {title: 'Semana'},
+      height: 350,
+      curveType: 'function',
+      interpolateNulls: true,
+      legend: { position: 'top', alignment: 'center' },
+      series: {
+            0: { color: '#1c91c0' },
+            1: { color: '#e7711b' },
+            2: { color: '#097138' },
+          },
+      titleTextStyle: { color: 'black', alignment: 'center', fontSize: 25, bold: true },
+    };
+
+    // 9. Render the chart, passing in our DataTable and any config data
+    chart.draw(joinedData2, options);
+  });
+
+
+}  
+
+
+function drawTable() {
+
+
+    var jsonData = $.ajax({
+    url: 'http://localhost:3000/json1',
+    dataType: 'json',
+    }).done(function (results) {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Mes');
+        data.addColumn('string', 'Semana');
+        data.addColumn('string', 'Institución');
+        data.addColumn('string', 'Sede');
+        data.addColumn('string', 'Grupo Etario');
+        data.addColumn('string', 'Complemento');
+        data.addColumn('number', 'Cantidad Estudiantes');
+        data.addColumn('number', 'Costo');
+
+        results.forEach(function(packet) {
+        data.addRow([
+          packet.mes,
+          packet.semana,
+          packet.Institucion,
+          packet.sede,
+          packet.descripcion,
+          packet.complemento,
+          parseFloat(packet.Est_Beneficiarios),
+          parseFloat(packet.costo),
+        ]);
+        });
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%', page: 'enable', pageSize: 20});
+
+
+    });
+}
+
+
+
+// 1. Start loading Google Charts
+google.load('visualization', '1', {'packages':['corechart','table' ]});
+
+// 2. Set a callback function to fire when loading is complete
+google.setOnLoadCallback(drawChart);
+
+google.setOnLoadCallback(drawTable);
+
+</script>
+  </head>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="index.html">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
+          <a class="nav-link" href="#grafica">
+            <i class="fa fa-fw fa-area-chart"></i>
+            <span class="nav-link-text">Charts</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="#Tabla">
+            <i class="fa fa-fw fa-table"></i>
+            <span class="nav-link-text">Tables</span>
+          </a>
+        </li>
+        
+
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Link">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-link"></i>
+            <span class="nav-link-text">Link</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary">12 New</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">New Messages:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>David Miller</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Jane Smith</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>John Doe</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all messages</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">6 New</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">New Alerts:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-danger">
+                <strong>
+                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all alerts</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+ <!-- ***************************************************************************************************************-->
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">My Dashboard</li>
+      </ol>
+      
+      <!-- Area Chart Example-->
+      <div id="grafica" class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-area-chart"></i> Area Chart</div>
+        <div class="card-body">
+
+          <!--Div that will hold the pie chart-->
+          <div id="myAreaChart"></div>
+          
+        </div>
+        <div class="card-footer small text-muted"></div>
+      </div>
+     
+      <!-- Example DataTables Card-->
+      <div id="Tabla" class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Data Table</div>
+        <div class="card-body">
+          
+            <div id="table_div"></div>
+        
+        </div>
+        <div class="card-footer small text-muted"></div>
+      </div>
+
+
+        <div class="row">
+        <div class="col-lg">
+          <!-- Card Columns Example Social Feed-->
+        <div class="card mb-3">
+        <div class="card-header">
+           <i class="fa fa-newspaper-o"></i> Informe </div>
+        <div class="card-body">
+          
+            <div id="table_div"></div>
+        
+        </div>
+        <div class="card-footer small text-muted"></div>
+      </div>
+        </div>
+
+
+      </div>
+
+
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Copyright © 2018</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="js/sb-admin-datatables.min.js"></script>
+   <!--  <script src="js/sb-admin-charts.min.js"></script>-->
+
+ 
+   
+  </body>
+</html>
