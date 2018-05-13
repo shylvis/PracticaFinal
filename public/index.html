@@ -290,19 +290,19 @@ google.setOnLoadCallback(drawTable);
                 <div class="media">
                   
                   <div class="media-body">
-                    <strong>Arquitectura de la aplicación web SPA + API REST </strong>
+                    <strong>Arquitectura de la aplicación web API REST </strong>
                     <br>
                     <br>
                     <img  src="arquitectura.png" alt="">
                     <br>
 
-                    <p>Desde el frontend,hacemos llamadas AJAX a nuestra API en el servidor Node. Este consulta a la base de datos (MySql) dependiendo de la llamada realizada. La BD devuelve el objeto como respuesta a Node y este lo sirve como JSON a JavaScript que lo muestra en el frontend sin necesidad de recargar la página</p>.
+                    <p align="justify">Desde el frontend,hacemos llamadas AJAX a nuestra API en el servidor Node. Este consulta a la base de datos (MySql) dependiendo de la llamada realizada. La BD devuelve el objeto como respuesta a Node y este lo sirve como JSON a JavaScript que lo muestra en el frontend sin necesidad de recargar la página</p>.
 
                     <lu>
-                      <li>
+                      <li align="justify">
                         index.html será nuestro único fichero html y por tanto nuestra única página, toda la funcionalidad será en ella.</li>
-                      <li>index.js es nuestro fichero Node donde estará la configuración del servidor y las rutas a nuestro API.</li>
-                      <li>package.json es el fichero donde están los datos de la aplicación y las dependencias utlizadas, como toda aplicación Node.
+                      <li align="justify">index.js es nuestro fichero Node donde estará la configuración del servidor y las rutas a nuestro API.</li>
+                      <li align="justify">package.json es el fichero donde están los datos de la aplicación y las dependencias utlizadas, como toda aplicación Node.
                       </li>
                     </lu>  
                    </div>
@@ -311,11 +311,33 @@ google.setOnLoadCallback(drawTable);
 
               <a class="list-group-item list-group-item-action" href="#">
                 <div class="media">
-                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
-                  <div class="media-body">
-                    <strong>David Miller</strong>posted a new article to
-                    <strong>David Miller Website</strong>.
-                    <div class="text-muted smaller">Today at 5:43 PM - 5m ago</div>
+                    <div class="media-body">
+                    <strong>Análisis de los Datos</strong>
+                    <br>
+                    <p align="justify">Realizando un análisis detallado a los datos usados se puede observar que el tipo complemento APS (Almuerzos) en cada uno de los meses su costo es más elevado comparándolo con los demás complementos.</p>
+                    <p align="justify">A medida que se avanza en la ejecución del proyecto va incrementando la cantidad de beneficiarios, por lo tanto, se refleja el aumento del costo, en las semanas del 01 al 08 que corresponden a los dos primeros meses de ejecución, se evidencia que varía las cantidades totales debido a la cantidad de días ejecutados, encontrando en el mes de agosto festividades y receso de actividades escolares en el mes de septiembre tomadas por algunas instituciones educativas. En las semanas 09, tiene el mayor incremento estabilizándose hasta la semana 11 en cada uno de los complementos en la cantidad de beneficiarios del programa.</p>
+                    <p align="justify">Para los complementos CAJMRI/CAJTRI (Complemento Industrializado), disminuyo las cantidades entregadas y no registrando más entregas en las semanas siguientes debido a la finalización de programa escolar en algunas instituciones. Con respecto al complemento APS fue disminuyendo sus entregas hasta la semana 15 el cual no se realizaron entregas y finalizando la ultima semana con una cantidad significante de complementos entregados.</p>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                    <div class="media-body">
+                    <strong> Justificación del gráfico escogido.</strong>
+                    <br>
+                    <p align="justify"> La herrimienta escogida para graficar la información es la API de Google Chart, seleccionando el tipo Area Chart, el cual permite mostrar datos continuos en el tiempo, por tanto son idóneos para mostrar tendencias en intervalos iguales, como meses, semanas y trimestres; y para llamar la atención en el valor total mostrando la suma de los valores trazados, comparando cada uno de las series. Se visualiza 3 tipos de variables las cuales son: semana, tipo complmento y costo.</p>
+                    <p align="justify">Como segunda visualización se uso el Data Table, para realizar el detallado de los datos, mostrando las variables, mes, semana, nombre de la institución, sede, grupo etario, complemento, cantidad de estudiantes y costo.</p>
+                  </div>
+                </div>
+              </a>
+
+              <a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                <div class="media-body">
+                    <strong> Fuente de datos escogida. </strong>
+                    <br>
+                    <p align="justify">Los datos relacionados en esta practica fueron sacados de un proyecto de la empresa en la cual laboro, el tema central es administración del programa de alimentación escolar PAE Colombia. Se realizo una limpeza de datos utilizando las herramentas de extración, transformación(ETL) y cargue de los datos en Pentaho/MySql. </p>
                   </div>
                 </div>
               </a>
