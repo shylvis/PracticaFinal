@@ -16,7 +16,7 @@ Este proyecto esta generado con: [Node JS](https://nodejs.org/) version v8.11.1,
 
 ####Instalar mysql:
 
-	Opción 1: Descargar gratis apache [XAMP](https://www.apachefriends.org/es/index.html) cualquiera de estas versiones 5.6.36, 7.0.30, 7.1.17 & 7.2.5
+	Opción 1: Descargar gratis apache [XAMPP](https://www.apachefriends.org/es/index.html) cualquiera de estas versiones 5.6.36, 7.0.30, 7.1.17 & 7.2.5
 	Levantar los servicios en el panel administrador MySql.
 
 
