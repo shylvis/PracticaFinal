@@ -25,7 +25,7 @@ if(!err) {
 
 app.get('/json', (req, res) => {
  
-  connection.query('select p.semana,t.complemento,b.costo from beneficiarios b inner join dim_tipocomplemento t on (b.id_tipocomplemento=t.id) inner join dim_periodo p on (b.id_periodo=p.id) group by p.semana,t.complemento', function(err, rows, fields)   
+  connection.query('select p.semana,t.complemento,sum(b.costo) costo from beneficiarios b inner join dim_tipocomplemento t on (b.id_tipocomplemento=t.id) inner join dim_periodo p on (b.id_periodo=p.id) group by p.semana,t.complemento', function(err, rows, fields)   
   {  
 
       if (err) throw err; 
@@ -39,7 +39,7 @@ app.get('/json', (req, res) => {
 
 app.get('/json1', (req, res) => {
 
-  connection.query('select p.mes,p.semana, s.id_sede,s.Institucion, s.sede, g.descripcion, t.complemento, b.Est_Beneficiarios, b.costo from beneficiarios b inner join dim_sedes s on (b.id_sede=s.id_sede) inner join dim_grupoetario g on (b.id_grupo=g.id) inner join dim_tipocomplemento t on (b.id_tipocomplemento=t.id) inner join dim_periodo p on (b.id_periodo=p.id) order by semana,sede asc', function(err, rows, fields)   
+  connection.query('select p.mes,p.semana, s.id_sede,s.Institucion, s.sede, g.descripcion, t.complemento, b.Est_Beneficiarios, b.costo from beneficiarios b inner join dim_sedes s on (b.id_sede=s.id_sede) inner join dim_grupoetario g on (b.id_grupo=g.id) inner join dim_tipocomplemento t on (b.id_tipocomplemento=t.id) inner join dim_periodo p on (b.id_periodo=p.id) order by p.semana,s.sede asc', function(err, rows, fields)   
   {  
      
     if (err) throw err;
